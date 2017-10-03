@@ -1,0 +1,32 @@
+version: "3.3"
+# snipe-it導入用コンポーザ
+services:
+  php:
+    build:
+      context: ./php
+      dockerfile: php.dockerfile
+    ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+    depends_on:
+      - db
+    volumes:
+      - type: volume
+        source: webdata
+        target: /var/www/html
+  db:
+    images: mariadb:10.3
+    environment:
+      - MYSQl_ROOT_PASSwORD: ROOTPW
+      - MYSQL_DATABASE: snipeit
+      - MYSQL_USER: snipeit
+      - MYSQL_PASSWD: snipepw
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/lib/mysql
+  volumes:
+    webdata:
+    dbdata:
