@@ -11,5 +11,4 @@ RUN npm install -g vue-cli
 
 COPY . /var/app
 USER ${NODE_USER}
-#RUN npm install --global vue-cli
 WORKDIR /var/app
