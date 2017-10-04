@@ -1,0 +1,23 @@
+version: "3.3"
+# vue.js cli
+services:
+  vue:
+    environment:
+      - NODE_ENV=development
+    build:
+      args:
+        NODE_USER: appuser
+      context: ./vue
+      dockerfile: vue.dockerfile
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+    volumes:
+      - type: bind
+        source: ./data/app
+        target: /var/app
+    command: npm run dev
+#    links:
+#      - db
