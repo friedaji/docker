@@ -5,28 +5,47 @@ services:
     build:
       context: ./php
       dockerfile: php.dockerfile
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
     ports:
       - target: 80
-        published: 80
+        published: 8080
         protocol: tcp
         mode: host
     depends_on:
       - db
     volumes:
-      - type: volume
-        source: webdata
+#      - type: volume
+#        source: webdata
+#        target: /var/www/html
+      - type: bind
+        source: ./webdata
         target: /var/www/html
+    links:
+      - db
   db:
-    images: mariadb:10.3
+    image: mariadb:10.3
     environment:
-      - MYSQl_ROOT_PASSwORD: ROOTPW
-      - MYSQL_DATABASE: snipeit
-      - MYSQL_USER: snipeit
-      - MYSQL_PASSWD: snipepw
+        MYSQL_ROOT_PASSWORD: ROOTPW
+        MYSQL_ROOT_PASSWORD: ROOTPW
+        MYSQL_DATABASE: snipeit
+        MYSQL_USER: snipeit
+        MYSQL_PASSWORD: snipepw
+    
     volumes:
       - type: volume
         source: dbdata
         target: /var/lib/mysql
-  volumes:
-    webdata:
-    dbdata:
+    restart: on-failure:1
+
+volumes:
+  webdata:
+#    external: true
+  dbdata:
+#    external: true
