@@ -1,0 +1,14 @@
+version: "3.3"
+# angular cli
+services:
+  angular:
+    #buildのみ
+    build:
+      args:
+        NODE_USER: appuser
+      context: ./angular
+      dockerfile: angular.dockerfile
+    volumes:
+      - type: bind
+        source: ./data/app
+        target: /var/app
