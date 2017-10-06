@@ -5,10 +5,19 @@ services:
     #buildのみ
     build:
       args:
-        NODE_USER: appuser
-      context: ./angular
-      dockerfile: angular.dockerfile
+        - NODE_USER=$NODE_USER
+        - DATA_DIR=$DATA_DIR
+      context: ./nodejs
+      dockerfile: nodejs.dockerfile
     volumes:
       - type: bind
-        source: ./data/app
-        target: /var/app
+        source: $HOST_DIR
+        target: $DATA_DIR
+      - type: bind
+        source: ./logs
+        target: /var/log/syslog
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "10"

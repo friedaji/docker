@@ -2,13 +2,11 @@ version: "3.3"
 # angular cli
 services:
   angular:
+    environment:
+      - "APP_DIR=${APP_DIR}"
     ports:
-      - target: 4200
-        published: 4200
-        protocol: tcp
-        mode: host
-    privileged: true
-    working_dir: "/var/app/my-app"
+      - "$CPORT:$LPORT"
+    working_dir: ${APP_DIR}
     #poll --- 単位ミリ秒で指定、且つwatching有効化
     #host --- コンテナ外からアクセスできるようにするため、全てのアドレスで待ち受ける
     command: ng serve --host 0.0.0.0 --poll=2000
