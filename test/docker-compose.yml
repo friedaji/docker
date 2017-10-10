@@ -1,0 +1,7 @@
+version: "3.3"
+services:
+  test:
+    image: ubuntu:${VER}
+    ports:
+      - $PORT:$PORT
+    command: "echo $PORT"
