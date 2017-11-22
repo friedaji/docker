@@ -1,0 +1,15 @@
+version: "3.3"
+# ansible
+services:
+  ansible:
+    build:
+      args:
+        - DATA_DIR=$DEST_BOOK_DIR
+      context: ./ansible
+      dockerfile: ansible.dockerfile
+    privileged: true
+    ports:
+      - 48080:8080
+    volumes:
+      - $HOST_BOOK_DIR:$DEST_BOOK_DIR
+      - $HOST_DATA_DIR:$DEST_DATA_DIR

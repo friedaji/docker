@@ -1,0 +1,8 @@
+from: node:8.6
+working_dir: /var/app/test-app
+environment:
+  PATH: $PATH:./node_modules/.bin
+command:
+  - npm
+  - run
+  - dev

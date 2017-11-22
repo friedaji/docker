@@ -1,0 +1,17 @@
+---
+- name: Install PHP
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items:
+    - php-fpm
+    - php-mysql
+    - php-curl
+    - php-gd
+    - php-json
+    - php-mcrypt
+    - php-opcache
+    - php-xml
+    - php-mbstring
+    - php-imap

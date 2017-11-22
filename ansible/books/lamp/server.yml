@@ -1,0 +1,6 @@
+- hosts: debiantest
+  remote_user: ubuntu
+  become: True
+  tasks:
+    - name: test
+      command : uptime

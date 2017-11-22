@@ -1,0 +1,29 @@
+- name: mkdir
+  shell: mkdir -p /var/app
+#- copy:
+#  src: package.json
+#  dest: /var/app/
+- name: install npm
+  shell: npm install && npm cache clean
+  args:
+    chdir: /var/app
+- name: install vue-cli
+  shell: npm install vue-cli
+- name:  expect
+  expect:
+    command: vue init webpack test-app
+    responses:
+      'Generate project in current directory': \n
+      'Project name': test-app
+      'Project description': \n
+      'Author': \n
+      'Vue build': \n
+      'vue-router': \n
+      'Use ESLint to lint your code': \n
+      'Pick an ESLint preset': \n
+      'Setup unit tests': \n
+      'Pick a test runner': \n
+      'Setup e2e tests with Nightwatch?': \n
+  args:
+    chdir: /var/app/test-app
+- shell: npm install

@@ -1,0 +1,17 @@
+## inventory file for vagrant machines
+core-01
+
+[web]
+core-01
+
+[coreos]
+core-01
+
+[coreos:vars]
+#ansible_python_interpreter="PATH=/home/core/bin:$PATH python"
+ansible_python_interpreter=/home/core/bin/python
+ansible_host=172.12.8.101
+ansible_connection=ssh
+ansible_user=core
+ansible_ssh_private_key_file=/home/nakamura/.vagrant.d/insecure_private_key
+

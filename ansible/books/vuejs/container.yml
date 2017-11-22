@@ -1,0 +1,13 @@
+version: "2"
+settings:
+  volumes:
+    - "/var/data:/var/app"
+services:
+  vue:
+    from: node:8.9
+    volumes:
+      - /var/data:/var/app"
+    ports:
+      - 8080:8080
+    roles:
+      - run

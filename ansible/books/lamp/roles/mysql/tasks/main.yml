@@ -1,0 +1,24 @@
+---
+- name: install apt packages
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql-server
+    - mysql-client
+    - mysql-utilities
+
+- name: copy config
+  template:
+    src: mysqld.j2
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+  notify: Restart mysql
+
+- name: set root pass
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ db_root_password }}"
+    login_user: root

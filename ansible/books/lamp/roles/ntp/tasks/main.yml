@@ -1,0 +1,23 @@
+---
+- name: Install OpenNTPd
+  apt:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items:
+    - openntpd
+
+- name: config openntpd
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: ntpd.j2, dest: /etc/openntpd/ntpd.conf }
+
+- name: Set TimeZone
+  command: timedatectl set-timezone Asia/Tokyo
+
+- name: Stop OpenNTPd
+  service:
+    name: openntpd
+    state: started
