@@ -1,51 +1,30 @@
 version: "3.3"
 # snipe-it導入用コンポーザ
 services:
-  php:
-    build:
-      context: ./php
-      dockerfile: php.dockerfile
-
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-
+  snipeit:
+    image: snipe/snipe-it:v4.1.13
+    env_file: .env
     ports:
       - target: 80
-        published: 8080
+        published: 58080
         protocol: tcp
         mode: host
     depends_on:
       - db
-    volumes:
-#      - type: volume
-#        source: webdata
-#        target: /var/www/html
-      - type: bind
-        source: ./webdata
-        target: /var/www/html
     links:
       - db
   db:
-    image: mariadb:10.3
-    environment:
-        MYSQL_ROOT_PASSWORD: ROOTPW
-        MYSQL_ROOT_PASSWORD: ROOTPW
-        MYSQL_DATABASE: snipeit
-        MYSQL_USER: snipeit
-        MYSQL_PASSWORD: snipepw
-    
-    volumes:
-      - type: volume
-        source: dbdata
-        target: /var/lib/mysql
+    build:
+      context: ./db
+      dockerfile: db.dockerfile
+    env_file: .env
+#    volumes:
+#      - type: volume
+#        source: dbdata
+#        target: /var/lib/mysql
     restart: on-failure:1
-
-volumes:
-  webdata:
+#volumes:
+#  webdata:
 #    external: true
-  dbdata:
+#  dbdata:
 #    external: true
