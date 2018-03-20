@@ -1,2 +1,2 @@
-FROM mariadb:10.3
+FROM mariadb:10.1
 #RUN sed -Ei 's/^(bind-address|skip)/#&/' /etc/my.cnf

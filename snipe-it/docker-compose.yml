@@ -2,8 +2,11 @@ version: "3.3"
 # snipe-it導入用コンポーザ
 services:
   snipeit:
-    image: snipe/snipe-it:v4.1.13
+    image: snipe/snipe-it
     env_file: .env
+    networks:
+      db_net:
+        ipv4_address: 172.18.1.8
     ports:
       - target: 80
         published: 58080
@@ -11,20 +14,22 @@ services:
         mode: host
     depends_on:
       - db
-    links:
-      - db
   db:
-    build:
-      context: ./db
-      dockerfile: db.dockerfile
+    image: mariadb:10.1
     env_file: .env
-#    volumes:
-#      - type: volume
-#        source: dbdata
-#        target: /var/lib/mysql
+    networks:
+      db_net:
+        ipv4_address: 172.18.1.9
+    ports:
+        - target: 3306
+          published: 3306
+          protocol: tcp
+          mode: host
     restart: on-failure:1
-#volumes:
-#  webdata:
-#    external: true
-#  dbdata:
-#    external: true
+networks:
+  db_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24
